@@ -1,0 +1,26 @@
+GeneMapKit Conversion Summary
+==================================================
+
+Timestamp: 2025-08-03 20:22:30
+Input file: ./data/sample/symbol_sample.csv
+Input type: symbol
+
+Conversion Results:
+------------------------------
+ensembl_gene_id     :  101/ 101 (100.0%)
+ensembl_transcript_id:  101/ 101 (100.0%)
+entrez_id           :  101/ 101 (100.0%)
+hgnc_id             :  101/ 101 (100.0%)
+refseq_id           :  101/ 101 (100.0%)
+uniprot_id          :  101/ 101 (100.0%)
+------------------------------
+Overall             :  606/ 606 (100.0%)
+
+Output Files:
+------------------------------
+ensembl_gene_id: results/symbol_to_ensembl_gene_id.csv
+ensembl_transcript_id: results/symbol_to_ensembl_transcript_id.csv
+entrez_id: results/symbol_to_entrez_id.csv
+hgnc_id: results/symbol_to_hgnc_id.csv
+refseq_id: results/symbol_to_refseq_id.csv
+uniprot_id: results/symbol_to_uniprot_id.csv

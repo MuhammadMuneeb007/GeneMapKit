@@ -1,0 +1,7 @@
+pandas>=2.0.0
+requests>=2.28.0
+click>=8.0.0
+tqdm>=4.64.0
+sqlite3-utils>=3.28
+aiohttp>=3.8.0
+colorlog>=6.6.0
