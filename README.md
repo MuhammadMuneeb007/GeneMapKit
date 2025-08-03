@@ -46,43 +46,19 @@
 
 <br>
 
-GeneMapKit is a **state-of-the-art** bioinformatics tool designed for researchers and computational biologists who need to convert between different gene identifier formats. It supports conversion between multiple identifier types including gene symbols, Ensembl IDs, Entrez IDs, HGNC IDs, RefSeq IDs, and UniProt IDs with **exceptional accuracy** and **comprehensive reporting**.
+GeneMapKit is a bioinformatics tool designed for researchers and computational biologists who need to convert between different gene identifier formats. It supports conversion between multiple identifier types, including gene symbols, Ensembl IDs, Entrez IDs, HGNC IDs, RefSeq IDs, and UniProt IDs.
 
 > 🔬 **Perfect for**: Genomics research, transcriptomics analysis, proteomics studies, and any bioinformatics workflow requiring gene ID standardization.
 
-<div align="center">
 
-### 🏆 Why Choose GeneMapKit?
-
-| Feature | GeneMapKit | Other Tools |
-|---------|------------|-------------|
-| **Accuracy** | 95-99% ✅ | 80-90% ❌ |
-| **Visualization** | Comprehensive ✅ | Limited ❌ |
-| **Batch Processing** | Yes ✅ | Partial ❌ |
-| **Database Updates** | Automated ✅ | Manual ❌ |
-| **Open Source** | MIT License ✅ | Proprietary ❌ |
-
-</div>
 
 ### ✨ Key Features
-
-<div align="center">
-
-| 🎯 **Core Features** | 🔧 **Technical Features** | 📊 **Analytics Features** |
-|---------------------|---------------------------|---------------------------|
-| 🎯 **High Accuracy**: Pandas-based engine | 🚀 **Fast Processing**: Optimized algorithms | 📈 **Visual Analytics**: Multi-panel diagrams |
-| 🔄 **7 ID Types**: Comprehensive format support | 🐍 **Python API**: Programmatic access | 📊 **Success Metrics**: Detailed statistics |
-| 📦 **Batch Processing**: Handle large datasets | 🗄️ **Database Management**: Auto-updates | 🎨 **Heatmaps**: Performance visualization |
-| 🖥️ **CLI Interface**: Easy command-line usage | 🧪 **Tested**: Comprehensive test suite | 📋 **Reports**: Exportable summaries |
-
-</div>
 
 **🔬 Bioinformatics-Specific Features:**
 - **Multi-organism support** (currently Human/Homo sapiens)
 - **Cross-reference validation** between databases
 - **Batch identifier processing** for large-scale studies
-- **Publication-ready visualizations** with high-resolution outputs
-- **Reproducible workflows** with detailed logging
+ 
 
 ## 🔄 Supported Gene ID Types
 
