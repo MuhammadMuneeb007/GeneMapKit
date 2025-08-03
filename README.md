@@ -393,47 +393,12 @@ Overall             :  606/ 606 (100.0%)
 
 </div>
 
-### 🎯 Visualization Types Generated
-
-<div align="center">
-
-| 📊 Chart Type | 📝 Description | 💾 Output Format | 🎯 Use Case |
-|---------------|----------------|------------------|-------------|
-| **Bar Charts** | Success rates per ID type | PNG (300 DPI) | Publication figures |
-| **Heatmaps** | Cross-conversion matrix | PNG (300 DPI) | Performance analysis |
-| **Pie Charts** | Overall success distribution | PNG (300 DPI) | Summary presentations |
-| **Flow Diagrams** | Conversion pathways | PNG (300 DPI) | Workflow documentation |
-| **Text Reports** | ASCII-based summaries | TXT | Quick reference |
-
-</div>
+ 
 
 > 📖 **All visualizations are automatically generated** with your conversion results and saved in high-resolution format suitable for publications.
 
 ## 🛠️ Advanced Features
-
-### 📋 Available Scripts
-
-The project includes several useful scripts for different purposes:
-
-```bash
-# 1. Download databases (REQUIRED - run first)
-python download_databases.py
-
-# 2. Main conversion tool (requires input file and column name)
-python main.py <input_file> <column_name>
-
-# 3. Comprehensive conversion examples
-python examples.py
-
-# 4. Run test suite
-python -m pytest tests/ -v
-
-# 5. Comprehensive analysis (converts all sample files)
-python comprehensive_convert.py
-
-# 6. All-to-all conversion analysis  
-python convert_all_to_all.py
-```
+ 
 
 ### 🎯 Script Details
 
@@ -443,10 +408,8 @@ python convert_all_to_all.py
 |-----------|------------|----------|-----------|
 | `download_databases.py` | Download gene databases | `python download_databases.py` | Database files in `data/databases/` |
 | `main.py` | Convert gene IDs | `python main.py file.csv column_name` | Results in `results/` directory |
-| `examples.py` | Show usage examples | `python examples.py` | Console output with examples |
 | `comprehensive_convert.py` | Test all sample files | `python comprehensive_convert.py` | Multiple result directories |
-| `convert_all_to_all.py` | Full conversion matrix | `python convert_all_to_all.py` | Cross-conversion analysis |
-
+ 
 </div>
 
 ### Python API Usage
@@ -469,82 +432,7 @@ results = converter.convert_batch(genes, "symbol", ["ensembl_gene_id", "entrez_i
 ### Supported Input File Formats
 
 - **CSV files** with gene identifiers in any column
-- **Automatic type detection** based on column names and data patterns
-- **Flexible column naming** (e.g., `gene_symbol`, `symbol`, `gene`, `ensembl_gene_id`, etc.)
-
-## 🗃️ Database Sources
-
-GeneMapKit uses multiple high-quality databases:
-
-- **HGNC** (HUGO Gene Nomenclature Committee)
-- **Ensembl** (European Bioinformatics Institute)
-- **NCBI Gene** (National Center for Biotechnology Information)
-- **UniProt** (Universal Protein Resource)
-- **RefSeq** (NCBI Reference Sequence Database)
-
-## 📈 Performance Metrics
-
-<div align="center">
-
-### 🏆 Benchmark Results
-
-**Tested on 10,000+ gene identifiers across multiple datasets**
-
-</div>
-
-<table align="center">
-<tr>
-<th>🔄 Conversion Type</th>
-<th>📊 Success Rate</th>
-<th>⚡ Speed</th>
-<th>📝 Notes</th>
-<th>🎯 Confidence</th>
-</tr>
-<tr>
-<td><strong>Symbol → Ensembl</strong></td>
-<td><span style="color: green;">95-99%</span></td>
-<td>~1000 IDs/sec</td>
-<td>High accuracy with current symbols</td>
-<td>🟢 Excellent</td>
-</tr>
-<tr>
-<td><strong>Symbol → Entrez</strong></td>
-<td><span style="color: green;">95-99%</span></td>
-<td>~1000 IDs/sec</td>
-<td>Excellent for protein-coding genes</td>
-<td>🟢 Excellent</td>
-</tr>
-<tr>
-<td><strong>Ensembl → Symbol</strong></td>
-<td><span style="color: green;">98-100%</span></td>
-<td>~1200 IDs/sec</td>
-<td>Very reliable conversion</td>
-<td>🟢 Excellent</td>
-</tr>
-<tr>
-<td><strong>Cross-database</strong></td>
-<td><span style="color: orange;">90-95%</span></td>
-<td>~800 IDs/sec</td>
-<td>Depends on database synchronization</td>
-<td>🟡 Very Good</td>
-</tr>
-</table>
-
-<div align="center">
-
-### 🔬 Research Applications
-
-| 🧬 Research Area | 📊 Use Cases | ✅ Validation |
-|------------------|---------------|---------------|
-| **Genomics** | GWAS studies, variant annotation | ✅ Validated on 1000+ studies |
-| **Transcriptomics** | RNA-seq analysis, pathway enrichment | ✅ Tested with major pipelines |
-| **Proteomics** | Protein-gene mapping, functional analysis | ✅ Cross-validated with UniProt |
-| **Systems Biology** | Network analysis, multi-omics integration | ✅ Used in 50+ publications |
-
-</div>
-
-> 📊 **Benchmarking Details**: Performance metrics based on comprehensive testing across multiple gene sets including cancer genes, housekeeping genes, and random genomic selections.
-
+ 
 ## 🔧 Requirements
 
 - **Python**: 3.8 or higher
