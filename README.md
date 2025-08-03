@@ -485,7 +485,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   year={2025},
   institution={The University of Queensland},
   url={https://github.com/MuhammadMuneeb007/GeneMapKit},
-  doi={10.1101/2025.08.03.000000}
+  doi={https://doi.org/10.5281/zenodo.16731821}
 }
 ```
  
