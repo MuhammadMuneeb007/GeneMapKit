@@ -13,10 +13,8 @@
 [![GitHub Forks](https://img.shields.io/github/forks/MuhammadMuneeb007/GeneMapKit?style=social)](https://github.com/MuhammadMuneeb007/GeneMapKit/network/members)
 [![GitHub Issues](https://img.shields.io/github/issues/MuhammadMuneeb007/GeneMapKit?style=flat-square)](https://github.com/MuhammadMuneeb007/GeneMapKit/issues)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/MuhammadMuneeb007/GeneMapKit?style=flat-square)](https://github.com/MuhammadMuneeb007/GeneMapKit/commits/main)
-
-[![DOI](https://img.shields.io/badge/DOI-10.1101/2025.08.03.000000-brightgreen.svg?style=flat-square)](https://doi.org/10.1101/2025.08.03.000000)
-[![bioRxiv](https://img.shields.io/badge/bioRxiv-Preprint-red.svg?style=flat-square)](https://www.biorxiv.org/)
-[![ResearchGate](https://img.shields.io/badge/ResearchGate-Profile-00CCBB.svg?style=flat-square&logo=researchgate&logoColor=white)](https://www.researchgate.net/profile/Muhammad-Muneeb-5)
+ 
+ 
 
 <!-- Share Buttons -->
 [![Share on Twitter](https://img.shields.io/badge/Share%20on-Twitter-1DA1F2.svg?style=flat-square&logo=twitter&logoColor=white)](https://twitter.com/intent/tweet?text=Check%20out%20GeneMapKit%20-%20A%20comprehensive%20gene%20identifier%20mapping%20toolkit!&url=https://github.com/MuhammadMuneeb007/GeneMapKit&hashtags=bioinformatics,genomics,python)
