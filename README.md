@@ -459,88 +459,26 @@ We welcome contributions! Please feel free to:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💼 Author Information
-
-<div align="center">
-
-### 🎓 Research Team
-
-<table>
-<tr>
-<td align="center">
-<img src="https://github.com/MuhammadMuneeb007.png" width="150" style="border-radius: 50%">
-<br>
-<strong>Muhammad Muneeb</strong>
-<br>
-<em>Lead Developer & Researcher</em>
-<br>
-The University of Queensland
-</td>
-<td align="center">
-<strong>Contact Information</strong>
-<br><br>
-📧 <a href="mailto:m.muneeb@uq.edu.au">m.muneeb@uq.edu.au</a>
-<br>
-📧 <a href="mailto:muneebsiddique007@gmail.com">muneebsiddique007@gmail.com</a>
-<br><br>
-<strong>Academic Profiles</strong>
-<br>
-🐙 <a href="https://github.com/MuhammadMuneeb007/">GitHub</a>
-<br>
-🎓 <a href="https://scholar.google.com/citations?hl=en&user=X0xdltIAAAAJ&view_op=list_works&sortby=pubdate">Google Scholar</a>
-<br>
-🔬 <a href="https://www.researchgate.net/profile/Muhammad-Muneeb-5">ResearchGate</a>
-</td>
-</tr>
-</table>
-
-### 🏛️ Institutional Affiliation
-
-<div align="center">
-<table>
-<tr>
-<td align="center">
-<img src="https://images.squarespace-cdn.com/content/v1/5cb0526b96e76f0001c45c8c/1592274371692-JG4LKRWJPG9XC5UPZNXZ/UQ+Logo.png" width="100">
-<br>
-<strong>The University of Queensland</strong>
-<br>
-School of Chemistry and Molecular Biosciences
-</td>
-<td align="center">
-<img src="https://biosig.lab.uq.edu.au/wp-content/uploads/2021/03/logo-biosig.png" width="100">
-<br>
-<strong>BioSig Lab</strong>
-<br>
-Computational Structural Biology
-</td>
-</tr>
-</table>
-</div>
-
-**👨‍🔬 Supervisor**: [David Ascher](https://scmb.uq.edu.au/profile/8654/david-ascher) - Professor of Computational Structural Biology
-<br>
-**🏠 Group Webpage**: [BioSig Lab](https://biosig.lab.uq.edu.au/) - Computational Biology Research Group
-
----
-
-**📞 Direct Contact:**
-- **🔧 Maintainer**: [Muhammad Muneeb](mailto:m.muneeb@uq.edu.au)
-- **🏛️ Institution**: The University of Queensland, Australia
-- **🧬 Research Group**: [BioSig Lab - Computational Structural Biology](https://biosig.lab.uq.edu.au/)
-
-</div>
+ 
+- **Name**: Muhammad Muneeb
+- **Affiliation**: The University of Queensland
+- **Email**: [m.muneeb@uq.edu.au](mailto:m.muneeb@uq.edu.au)
+- **Gmail**: [muneebsiddique007@gmail.com](mailto:muneebsiddique007@gmail.com)
+- **GitHub**: [GitHub Profile](https://github.com/MuhammadMuneeb007/)
+- **Google Scholar**: [Google Scholar](https://scholar.google.com/citations?hl=en&user=X0xdltIAAAAJ&view_op=list_works&sortby=pubdate)
+- **ResearchGate**: [ResearchGate Profile](https://www.researchgate.net/profile/Muhammad-Muneeb-5)
+- **Supervisor**: [David Ascher](https://scmb.uq.edu.au/profile/8654/david-ascher)
+- **Group Webpage**: [BioSig Lab](https://biosig.lab.uq.edu.au/)
+ 
+  
+  
 
 ## 📚 Citation
 
-<div align="center">
-
-### 📖 How to Cite
+ 
 
 **If you use GeneMapKit in your research, please cite:**
-
-</div>
-
-<details>
-<summary><strong>📄 BibTeX Format</strong></summary>
+ 
 
 ```bibtex
 @software{muneeb2025genemapkit,
@@ -552,242 +490,8 @@ Computational Structural Biology
   doi={10.1101/2025.08.03.000000}
 }
 ```
-
-</details>
-
-<details>
-<summary><strong>📝 APA Format</strong></summary>
-
-```
-Muneeb, M., & Ascher, D. B. (2025). GeneMapKit: A Comprehensive Gene Identifier 
-Mapping Toolkit. The University of Queensland. 
-https://doi.org/10.1101/2025.08.03.000000
-```
-
-</details>
-
-<details>
-<summary><strong>📋 Vancouver Format</strong></summary>
-
-```
-Muneeb M, Ascher DB. GeneMapKit: A Comprehensive Gene Identifier Mapping Toolkit. 
-Brisbane: The University of Queensland; 2025. 
-Available from: https://github.com/MuhammadMuneeb007/GeneMapKit
-```
-
-</details>
-
----
-
-<div align="center">
-
-### 🏆 Recognition & Impact
-
-[![Citations](https://img.shields.io/badge/Citations-0-blue.svg?style=flat-square)](https://scholar.google.com/citations?user=X0xdltIAAAAJ)
-[![Downloads](https://img.shields.io/github/downloads/MuhammadMuneeb007/GeneMapKit/total?style=flat-square)](https://github.com/MuhammadMuneeb007/GeneMapKit/releases)
-[![Users](https://img.shields.io/badge/Active%20Users-500%2B-green.svg?style=flat-square)](https://github.com/MuhammadMuneeb007/GeneMapKit)
-
-**📊 Research Impact**: Used in genomics studies, transcriptomics analyses, and systems biology research worldwide.
-
-</div>
-
-## 🙏 Acknowledgments
-
-<div align="center">
-
-### 🤝 Special Thanks
-
-</div>
-
-<table align="center">
-<tr>
-<td align="center">
-<strong>🏛️ Institutional Support</strong>
-<br><br>
-🎓 <strong>The University of Queensland</strong>
-<br>
-School of Chemistry and Molecular Biosciences
-<br><br>
-🧬 <strong>BioSig Lab</strong>
-<br>
-Computational Structural Biology Research Group
-</td>
-<td align="center">
-<strong>👨‍🔬 Research Supervision</strong>
-<br><br>
-👤 <strong>David Ascher</strong>
-<br>
-Professor of Computational Structural Biology
-<br>
-Research supervision and guidance
-<br><br>
-🌟 <strong>BioSig Lab Members</strong>
-<br>
-Collaborative research environment
-</td>
-</tr>
-</table>
-
-<div align="center">
-
-### 🗄️ Database Providers
-
-**We gratefully acknowledge the following organizations for providing open-access databases:**
-
-</div>
-
-<table align="center">
-<tr>
-<td align="center">
-<img src="https://www.genenames.org/img/hgnc-logo.png" width="80">
-<br>
-<strong>HGNC</strong>
-<br>
-Gene nomenclature
-</td>
-<td align="center">
-<img src="https://www.ensembl.org/img/ensembl_logo.png" width="80">
-<br>
-<strong>Ensembl</strong>
-<br>
-Genome annotation
-</td>
-<td align="center">
-<img src="https://www.ncbi.nlm.nih.gov/corehtml/logo234x60.gif" width="80">
-<br>
-<strong>NCBI</strong>
-<br>
-Gene information
-</td>
-<td align="center">
-<img src="https://www.uniprot.org/images/logos/uniprot_logo_black.svg" width="80">
-<br>
-<strong>UniProt</strong>
-<br>
-Protein data
-</td>
-</tr>
-</table>
-
----
-
-<div align="center">
-
-### 🌍 Open Science Community
-
-**🙏 Grateful acknowledgment to:**
-
-- **Open source bioinformatics community** for foundational tools and libraries
-- **Python ecosystem** (Pandas, Matplotlib, NumPy) for robust data science capabilities  
-- **GitHub community** for collaborative development and version control
-- **Research collaborators** worldwide who provided feedback and testing
-
-### 💝 Financial Support
-
-This research was supported by:
-- 🏛️ **The University of Queensland** research funding
-- 🧬 **BioSig Lab** computational resources
-- 🎓 **Graduate research scholarship** programs
-
-</div>
-
-## 📞 Support
-
-<div align="center">
-
-### 💬 Get Help & Support
-
-**We're here to help! Multiple ways to get assistance:**
-
-</div>
-
-<table align="center">
-<tr>
-<td align="center">
-<h4>📧 Direct Contact</h4>
-<a href="mailto:m.muneeb@uq.edu.au">
-<img src="https://img.shields.io/badge/Email-m.muneeb%40uq.edu.au-red?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
-</a>
-<br>
-<em>For research collaboration and technical questions</em>
-</td>
-<td align="center">
-<h4>🐛 Bug Reports</h4>
-<a href="https://github.com/MuhammadMuneeb007/GeneMapKit/issues">
-<img src="https://img.shields.io/badge/Issues-GitHub-blue?style=for-the-badge&logo=github&logoColor=white" alt="Issues">
-</a>
-<br>
-<em>Report bugs and request features</em>
-</td>
-</tr>
-<tr>
-<td align="center">
-<h4>💭 Discussions</h4>
-<a href="https://github.com/MuhammadMuneeb007/GeneMapKit/discussions">
-<img src="https://img.shields.io/badge/Discussions-GitHub-green?style=for-the-badge&logo=github&logoColor=white" alt="Discussions">
-</a>
-<br>
-<em>Community Q&A and feature discussions</em>
-</td>
-<td align="center">
-<h4>� Documentation</h4>
-<a href="https://github.com/MuhammadMuneeb007/GeneMapKit/wiki">
-<img src="https://img.shields.io/badge/Wiki-Documentation-purple?style=for-the-badge&logo=gitbook&logoColor=white" alt="Wiki">
-</a>
-<br>
-<em>Comprehensive guides and tutorials</em>
-</td>
-</tr>
-</table>
-
----
-
-<div align="center">
-
-### 📋 Support Channels
-
-| 🎯 Type | 📞 Channel | ⏱️ Response Time | 👥 Audience |
-|---------|-----------|-----------------|------------|
-| **🔧 Technical Issues** | [GitHub Issues](https://github.com/MuhammadMuneeb007/GeneMapKit/issues) | 24-48 hours | All users |
-| **🔬 Research Questions** | [Email](mailto:m.muneeb@uq.edu.au) | 1-3 days | Researchers |
-| **💡 Feature Requests** | [GitHub Discussions](https://github.com/MuhammadMuneeb007/GeneMapKit/discussions) | 1 week | Community |
-| **🤝 Collaborations** | [Email](mailto:m.muneeb@uq.edu.au) | 1-2 weeks | Academic partners |
-
-### 🆘 Quick Help
-
-<details>
-<summary><strong>❓ Frequently Asked Questions</strong></summary>
-
-**Q: What file formats are supported?**
-A: Currently CSV files with gene identifiers in any column.
-
-**Q: Can I process large datasets?**
-A: Yes! GeneMapKit efficiently handles datasets with 10,000+ gene identifiers.
-
-**Q: Are there API rate limits?**
-A: No rate limits - all processing is done locally with downloaded databases.
-
-**Q: Can I contribute to the project?**
-A: Absolutely! See our contributing guidelines and submit a pull request.
-
-</details>
-
-### 🌟 Community
-
-<a href="https://github.com/MuhammadMuneeb007/GeneMapKit/stargazers">
-<img src="https://img.shields.io/github/stars/MuhammadMuneeb007/GeneMapKit?style=social" alt="Stars">
-</a>
-<a href="https://github.com/MuhammadMuneeb007/GeneMapKit/network/members">
-<img src="https://img.shields.io/github/forks/MuhammadMuneeb007/GeneMapKit?style=social" alt="Forks">
-</a>
-<a href="https://github.com/MuhammadMuneeb007/GeneMapKit/watchers">
-<img src="https://img.shields.io/github/watchers/MuhammadMuneeb007/GeneMapKit?style=social" alt="Watchers">
-</a>
-
-</div>
-
----
-
+ 
+ 
 <div align="center">
 
 **⭐ Star this repository if you find it useful! ⭐**
