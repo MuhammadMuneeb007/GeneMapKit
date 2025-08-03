@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**A comprehensive and high-performance gene identifier mapping toolkit that converts between different gene ID formats with exceptional accuracy and visualization capabilities.**
+**A comprehensive gene mapping toolkit that converts between different gene ID formats.**
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
