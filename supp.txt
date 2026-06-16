@@ -1,0 +1,529 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{pdflscape}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{caption}
+
+\title{Supplementary Data for:\\GeneMapKit: a reproducible local framework for human gene identifier mapping}
+\author{Muhammad Muneeb and David B. Ascher}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Supplementary Section S1: Scope of the Supplementary Analyses}
+
+This supplementary file documents the data sources, database builds, validation strategy, and benchmark outputs used to evaluate GeneMapKit. GeneMapKit constructs a local SQLite database from pinned public annotation resources and performs human identifier conversion without requiring live API access during routine use. The analyses below distinguish between independent held-out validation, final database diagnostics, external API concordance, and all-to-all path consistency. External API concordance is reported as agreement with external services and should not be interpreted as absolute biological truth.
+
+The raw snapshot used for the analyses was created for \textit{Homo sapiens} (NCBI taxon 9606), Ensembl release 116, with manifest timestamp \texttt{2026-06-14T23:54:25Z}. The final GeneMapKit database used schema version \texttt{2.1.0}.
+
+\section*{Supplementary Section S2: Raw Database Snapshot}
+
+\begin{landscape}
+\begin{longtable}{llllrr}
+\caption*{\textbf{Supplementary Table S1.} Raw sources in the GeneMapKit snapshot. File sizes and checksums were recorded in \path{data/raw/manifest.json}.}\\
+\toprule
+\textbf{Source} & \textbf{Tier} & \textbf{File} & \textbf{Main identifiers} & \textbf{Bytes} & \textbf{SHA256 prefix} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Source} & \textbf{Tier} & \textbf{File} & \textbf{Main identifiers} & \textbf{Bytes} & \textbf{SHA256 prefix} \\
+\midrule
+\endhead
+\texttt{ensembl\_gtf} & Core & \path{Homo_sapiens.GRCh38.116.gtf.gz} & Symbol, Ensembl gene, transcript & 141,121,632 & \texttt{ed992f0eac71} \\
+\texttt{hgnc} & Core & \path{hgnc_complete_set.txt} & Symbol, aliases, HGNC, Entrez, Ensembl, RefSeq, UniProt & 16,900,103 & \texttt{0d234cf6ed82} \\
+\texttt{mane\_summary} & Core & \path{MANE.GRCh38.v1.5.summary.txt.gz} & MANE Ensembl/RefSeq transcript and protein pairs & 1,115,288 & \texttt{d10ace272068} \\
+\texttt{ncbi\_gene\_info} & Core & \path{Homo_sapiens.gene_info.gz} & Symbol, aliases, Entrez, Ensembl, HGNC, OMIM & 5,157,681 & \texttt{3ad44b84e24b} \\
+\texttt{uniprot\_human} & Core & \path{HUMAN_9606_idmapping_selected.tab.gz} & UniProt, Ensembl, RefSeq protein, Entrez, PDB & 64,657,002 & \texttt{da1b2e928db3} \\
+\texttt{ccds} & Cross-reference & \path{CCDS.current.txt} & CCDS, symbol, Entrez & 10,767,125 & \texttt{15452afbabd6} \\
+\texttt{ensembl\_entrez} & Cross-reference & \path{Homo_sapiens.GRCh38.116.entrez.tsv.gz} & Ensembl to Entrez & 6,093,982 & \texttt{745945cbafa5} \\
+\texttt{ensembl\_refseq} & Cross-reference & \path{Homo_sapiens.GRCh38.116.refseq.tsv.gz} & Ensembl to RefSeq & 4,240,814 & \texttt{cf243992943c} \\
+\texttt{ensembl\_uniprot} & Cross-reference & \path{Homo_sapiens.GRCh38.116.uniprot.tsv.gz} & Ensembl to UniProt & 2,124,003 & \texttt{f1e26db23b07} \\
+\texttt{ncbi\_gene\_history} & Cross-reference & \path{gene_history.gz} & Retired and replaced NCBI Gene IDs & 159,530,885 & \texttt{a02d196f699b} \\
+\texttt{ncbi\_gene2ensembl} & Extended & \path{gene2ensembl.gz} & Entrez to Ensembl gene, transcript, protein & 289,113,609 & \texttt{08fd31b430ce} \\
+\texttt{ncbi\_gene2refseq} & Extended & \path{gene2refseq.gz} & Entrez to RefSeq RNA and protein & 2,276,101,313 & \texttt{5693b4c54597} \\
+\texttt{ncbi\_gene2go} & Extended & \path{gene2go.gz} & Entrez to Gene Ontology & 1,322,480,316 & \texttt{b8f9676489a8} \\
+\texttt{sifts\_pdb} & Extended & \path{pdb_chain_uniprot.tsv.gz} & PDB chain to UniProt & 6,024,454 & \texttt{55dcb0fef6eb} \\
+\bottomrule
+\end{longtable}
+\end{landscape}
+
+\section*{Supplementary Section S3: Database Builds}
+
+Three principal SQLite databases were constructed: a final user-facing database containing all available sources, a MANE held-out database excluding \texttt{mane\_summary}, and an NCBI held-out database excluding \texttt{ncbi\_gene2ensembl} and \texttt{ncbi\_gene2refseq}. The held-out databases were used to estimate recovery of mappings from excluded sources using the remaining evidence.
+
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llllrrr}
+\toprule
+\textbf{Build} & \textbf{Database} & \textbf{Excluded sources} & \textbf{SHA256 prefix} & \textbf{Size} & \textbf{Groups} & \textbf{Relationship rows} \\
+\midrule
+Final & \path{genemapkit_final_v21.db} & None & \texttt{eac8b65e2342} & 11.73 GiB & 478,458 & 29,055,130 \\
+MANE held-out & \path{genemapkit_mane_heldout_v21.db} & \texttt{mane\_summary} & \texttt{c7a7d475a01f} & 11.33 GiB & 478,458 & 27,969,218 \\
+NCBI held-out & \path{genemapkit_ncbi_heldout_v21.db} & \texttt{ncbi\_gene2ensembl}; \texttt{ncbi\_gene2refseq} & \texttt{d62af7ea3ec4} & 10.41 GiB & 480,865 & 26,083,930 \\
+\bottomrule
+\end{tabular}%
+}
+\caption*{\textbf{Supplementary Table S2.} Database builds used for final conversion and held-out validation. Sizes are reported in GiB.}
+\end{table}
+
+\subsection*{Build commands}
+
+\begin{verbatim}
+python build_database.py \
+  --raw-dir data/raw \
+  --out data/build/genemapkit_final_v21.db \
+  --report data/build/genemapkit_final_v21_report.json \
+  --force
+
+python build_database.py \
+  --raw-dir data/raw \
+  --exclude mane_summary \
+  --out data/build/genemapkit_mane_heldout_v21.db \
+  --report data/build/genemapkit_mane_heldout_v21_report.json \
+  --force
+
+python build_database.py \
+  --raw-dir data/raw \
+  --exclude ncbi_gene2ensembl \
+  --exclude ncbi_gene2refseq \
+  --out data/build/genemapkit_ncbi_heldout_v21.db \
+  --report data/build/genemapkit_ncbi_heldout_v21_report.json \
+  --force
+\end{verbatim}
+
+\section*{Supplementary Section S4: Source Contributions to the Final Database}
+
+\begin{landscape}
+\begin{longtable}{lrrr}
+\caption*{\textbf{Supplementary Table S3.} Source-level records, identifier rows, and direct relationship rows in the final database.}\\
+\toprule
+\textbf{Source} & \textbf{Parsed records} & \textbf{Identifier rows} & \textbf{Direct relationship rows} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Source} & \textbf{Parsed records} & \textbf{Identifier rows} & \textbf{Direct relationship rows} \\
+\midrule
+\endhead
+\texttt{ccds} & 37,808 & 79,838 & 193,152 \\
+\texttt{ensembl\_entrez} & 552,633 & 971,501 & 4,534,860 \\
+\texttt{ensembl\_gtf} & 3,936,405 & 1,139,424 & 4,676,764 \\
+\texttt{ensembl\_refseq} & 459,541 & 733,284 & 3,487,658 \\
+\texttt{ensembl\_uniprot} & 176,855 & 419,651 & 1,791,626 \\
+\texttt{hgnc} & 44,997 & 430,102 & 4,331,220 \\
+\texttt{mane\_summary} & 19,437 & 155,300 & 1,085,912 \\
+\texttt{ncbi\_gene2ensembl} & 88,163 & 362,156 & 2,015,176 \\
+\texttt{ncbi\_gene2go} & 444,739 & 547,657 & 884,904 \\
+\texttt{ncbi\_gene2refseq} & 849,051 & 669,186 & 956,024 \\
+\texttt{ncbi\_gene\_history} & 166,630 & 347,623 & 446,240 \\
+\texttt{ncbi\_gene\_info} & 193,875 & 563,569 & 1,629,102 \\
+\texttt{sifts\_pdb} & 1,001,404 & 561,359 & 974,462 \\
+\texttt{uniprot\_human} & 210,709 & 1,519,553 & 2,048,030 \\
+\bottomrule
+\end{longtable}
+\end{landscape}
+
+During construction, 644,668 Ensembl Entrez cross-reference rows were rejected because the \texttt{EntrezGene} cross-reference value was not numeric. These rejected records were transcript-name cross-references rather than valid NCBI Gene identifiers.
+
+\section*{Supplementary Section S5: Identifier Namespace Inventory}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lr}
+\toprule
+\textbf{Identifier namespace} & \textbf{Distinct identifiers in final database} \\
+\midrule
+\texttt{alias\_symbol} & 82,971 \\
+\texttt{ccds\_id} & 37,771 \\
+\texttt{ena\_id} & 20,681 \\
+\texttt{ensembl\_gene\_id} & 83,350 \\
+\texttt{ensembl\_protein\_id} & 382,806 \\
+\texttt{ensembl\_transcript\_id} & 667,415 \\
+\texttt{entrez\_id} & 360,507 \\
+\texttt{go\_id} & 18,349 \\
+\texttt{hgnc\_id} & 45,102 \\
+\texttt{omim\_id} & 25,870 \\
+\texttt{pdb\_id} & 446,701 \\
+\texttt{previous\_symbol} & 179,400 \\
+\texttt{refseq\_protein\_id} & 198,880 \\
+\texttt{refseq\_rna\_id} & 292,492 \\
+\texttt{symbol} & 194,111 \\
+\texttt{ucsc\_id} & 24,299 \\
+\texttt{uniprot\_id} & 301,559 \\
+\texttt{vega\_id} & 32,422 \\
+\bottomrule
+\end{tabular}
+\caption*{\textbf{Supplementary Table S4.} Identifier namespaces available in the final GeneMapKit database.}
+\end{table}
+
+\section*{Supplementary Section S6: Internal Structural Diagnostics}
+
+Internal diagnostics describe many-to-many structure in the database. These counts are not interpreted as errors by themselves because human gene, transcript, protein, RefSeq, UniProt, and PDB relationships are frequently many-to-many.
+
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lr}
+\toprule
+\textbf{Diagnostic metric in final database} & \textbf{Count} \\
+\midrule
+Direct relationship rows & 29,055,130 \\
+Inputs with multiple direct Ensembl transcript ID to Ensembl protein ID mappings & 0 \\
+Inputs with multiple direct Ensembl transcript ID to RefSeq RNA ID mappings & 38,438 \\
+Inputs with multiple direct Ensembl protein ID to RefSeq protein ID mappings & 49,067 \\
+Inputs with multiple direct Entrez ID to Ensembl gene ID mappings & 3,170 \\
+Groups with multiple HGNC IDs & 609 \\
+Groups with multiple Entrez IDs & 19,449 \\
+Groups with multiple Ensembl gene IDs & 3,184 \\
+Groups with multiple Ensembl transcript IDs & 35,636 \\
+Groups with multiple Ensembl protein IDs & 18,001 \\
+Groups with multiple RefSeq RNA IDs & 28,550 \\
+Groups with multiple RefSeq protein IDs & 15,051 \\
+Groups with multiple UniProt IDs & 17,041 \\
+Groups with gene, transcript, and protein identifiers & 19,753 \\
+Groups with multiple genes and multiple proteins & 1,833 \\
+\bottomrule
+\end{tabular}%
+}
+\caption*{\textbf{Supplementary Table S5.} Structural diagnostics from the final database diagnostic validation.}
+\end{table}
+
+\section*{Supplementary Section S7: Held-Out Validation Strategy}
+
+Held-out validation used databases built after excluding specific validation sources. MANE held-out validation used a database built without \texttt{mane\_summary}. NCBI held-out validation used a database built without \texttt{ncbi\_gene2ensembl} and \texttt{ncbi\_gene2refseq}. Each benchmark used complete truth sampling (\texttt{--sample 0}) and the \texttt{all-supported} mapping policy.
+
+\subsection*{Validation commands}
+
+\begin{verbatim}
+python validate_database.py \
+  --db data/build/genemapkit_mane_heldout_v21.db \
+  --raw-dir data/raw \
+  --source mane_summary \
+  --require-held-out \
+  --sample 0 \
+  --policy all-supported \
+  --out results/mane_heldout_complete
+
+python validate_database.py \
+  --db data/build/genemapkit_ncbi_heldout_v21.db \
+  --raw-dir data/raw \
+  --source ncbi_gene2ensembl \
+  --source ncbi_gene2refseq \
+  --require-held-out \
+  --sample 0 \
+  --policy all-supported \
+  --out results/ncbi_heldout_complete
+\end{verbatim}
+
+\begin{landscape}
+\begin{longtable}{lllrrrrrr}
+\caption*{\textbf{Supplementary Table S6.} Complete independent held-out validation under the \texttt{all-supported} policy.}\\
+\toprule
+\textbf{Held-out source} & \textbf{Input} & \textbf{Output} & \textbf{Inputs} & \textbf{Expected} & \textbf{Predicted} & \textbf{Precision} & \textbf{Recall} & \textbf{Exact sets} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Held-out source} & \textbf{Input} & \textbf{Output} & \textbf{Inputs} & \textbf{Expected} & \textbf{Predicted} & \textbf{Precision} & \textbf{Recall} & \textbf{Exact sets} \\
+\midrule
+\endhead
+\texttt{mane\_summary} & \texttt{ensembl\_transcript\_id} & \texttt{ensembl\_protein\_id} & 19,367 & 19,367 & 19,367 & 100.000\% & 100.000\% & 100.000\% \\
+\texttt{mane\_summary} & \texttt{ensembl\_transcript\_id} & \texttt{refseq\_rna\_id} & 19,437 & 19,437 & 44,007 & 44.168\% & 100.000\% & 58.754\% \\
+\texttt{mane\_summary} & \texttt{ensembl\_protein\_id} & \texttt{refseq\_protein\_id} & 19,367 & 19,367 & 45,712 & 42.367\% & 100.000\% & 58.130\% \\
+\texttt{mane\_summary} & \texttt{refseq\_rna\_id} & \texttt{ensembl\_transcript\_id} & 19,437 & 19,437 & 22,188 & 87.601\% & 100.000\% & 92.597\% \\
+\texttt{ncbi\_gene2ensembl} & \texttt{entrez\_id} & \texttt{ensembl\_gene\_id} & 38,515 & 38,547 & 43,185 & 89.260\% & 100.000\% & 93.260\% \\
+\texttt{ncbi\_gene2ensembl} & \texttt{ensembl\_gene\_id} & \texttt{entrez\_id} & 38,267 & 38,547 & 41,690 & 92.461\% & 100.000\% & 98.751\% \\
+\texttt{ncbi\_gene2ensembl} & \texttt{ensembl\_transcript\_id} & \texttt{ensembl\_protein\_id} & 63,871 & 63,871 & 63,801 & 100.000\% & 99.890\% & 99.890\% \\
+\texttt{ncbi\_gene2ensembl} & \texttt{ensembl\_transcript\_id} & \texttt{refseq\_rna\_id} & 78,861 & 78,861 & 141,438 & 48.414\% & 86.831\% & 53.570\% \\
+\texttt{ncbi\_gene2ensembl} & \texttt{ensembl\_protein\_id} & \texttt{refseq\_protein\_id} & 63,884 & 63,884 & 152,274 & 36.675\% & 87.418\% & 45.165\% \\
+\texttt{ncbi\_gene2refseq} & \texttt{entrez\_id} & \texttt{refseq\_rna\_id} & 46,038 & 279,185 & 33,926 & 98.682\% & 11.992\% & 24.493\% \\
+\texttt{ncbi\_gene2refseq} & \texttt{entrez\_id} & \texttt{refseq\_protein\_id} & 20,538 & 198,827 & 19,367 & 100.000\% & 9.741\% & 22.383\% \\
+\texttt{ncbi\_gene2refseq} & \texttt{refseq\_rna\_id} & \texttt{entrez\_id} & 279,185 & 279,185 & 33,493 & 99.958\% & 11.992\% & 11.988\% \\
+\texttt{ncbi\_gene2refseq} & \texttt{refseq\_protein\_id} & \texttt{entrez\_id} & 198,827 & 198,827 & 19,367 & 100.000\% & 9.741\% & 9.741\% \\
+\bottomrule
+\end{longtable}
+\end{landscape}
+
+The MANE held-out benchmark showed complete recovery of expected MANE mappings. Lower precision for RefSeq transcript and protein outputs reflects additional supported mappings returned by GeneMapKit beyond the single held-out MANE assertion. In the NCBI held-out benchmark, gene-level Entrez--Ensembl mappings showed high precision and complete recall, whereas RefSeq-oriented NCBI tests showed lower recall when the NCBI RefSeq source itself was excluded.
+
+\section*{Supplementary Section S8: Final Database Diagnostic Validation}
+
+The complete final database was also evaluated against MANE, NCBI Gene2Ensembl, and NCBI Gene2RefSeq truth relationships. This diagnostic confirms behavior when all source files are included. It is not an independent held-out accuracy estimate because the tested sources are present in the database.
+
+\begin{landscape}
+\begin{longtable}{lllrrrrr}
+\caption*{\textbf{Supplementary Table S7.} Diagnostic validation of the final database under the \texttt{all-supported} policy.}\\
+\toprule
+\textbf{Source} & \textbf{Input} & \textbf{Output} & \textbf{Inputs} & \textbf{Predicted} & \textbf{Precision} & \textbf{Recall} & \textbf{Exact sets} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Source} & \textbf{Input} & \textbf{Output} & \textbf{Inputs} & \textbf{Predicted} & \textbf{Precision} & \textbf{Recall} & \textbf{Exact sets} \\
+\midrule
+\endhead
+\texttt{mane\_summary} & \texttt{ensembl\_transcript\_id} & \texttt{ensembl\_protein\_id} & 19,367 & 19,367 & 100.000\% & 100.000\% & 100.000\% \\
+\texttt{mane\_summary} & \texttt{ensembl\_transcript\_id} & \texttt{refseq\_rna\_id} & 19,437 & 44,007 & 44.168\% & 100.000\% & 58.754\% \\
+\texttt{mane\_summary} & \texttt{ensembl\_protein\_id} & \texttt{refseq\_protein\_id} & 19,367 & 45,712 & 42.367\% & 100.000\% & 58.130\% \\
+\texttt{mane\_summary} & \texttt{refseq\_rna\_id} & \texttt{ensembl\_transcript\_id} & 19,437 & 22,188 & 87.601\% & 100.000\% & 92.597\% \\
+\texttt{ncbi\_gene2ensembl} & \texttt{entrez\_id} & \texttt{ensembl\_gene\_id} & 38,515 & 43,185 & 89.260\% & 100.000\% & 93.260\% \\
+\texttt{ncbi\_gene2ensembl} & \texttt{ensembl\_gene\_id} & \texttt{entrez\_id} & 38,267 & 41,690 & 92.461\% & 100.000\% & 98.751\% \\
+\texttt{ncbi\_gene2ensembl} & \texttt{ensembl\_transcript\_id} & \texttt{ensembl\_protein\_id} & 63,871 & 63,871 & 100.000\% & 100.000\% & 100.000\% \\
+\texttt{ncbi\_gene2ensembl} & \texttt{ensembl\_transcript\_id} & \texttt{refseq\_rna\_id} & 78,861 & 151,823 & 51.943\% & 100.000\% & 64.992\% \\
+\texttt{ncbi\_gene2ensembl} & \texttt{ensembl\_protein\_id} & \texttt{refseq\_protein\_id} & 63,884 & 160,312 & 39.850\% & 100.000\% & 53.225\% \\
+\texttt{ncbi\_gene2refseq} & \texttt{entrez\_id} & \texttt{refseq\_rna\_id} & 46,038 & 279,632 & 99.840\% & 100.000\% & 99.031\% \\
+\texttt{ncbi\_gene2refseq} & \texttt{entrez\_id} & \texttt{refseq\_protein\_id} & 20,538 & 198,827 & 100.000\% & 100.000\% & 100.000\% \\
+\texttt{ncbi\_gene2refseq} & \texttt{refseq\_rna\_id} & \texttt{entrez\_id} & 279,185 & 279,199 & 99.995\% & 100.000\% & 99.995\% \\
+\texttt{ncbi\_gene2refseq} & \texttt{refseq\_protein\_id} & \texttt{entrez\_id} & 198,827 & 198,827 & 100.000\% & 100.000\% & 100.000\% \\
+\bottomrule
+\end{longtable}
+\end{landscape}
+
+\section*{Supplementary Section S9: Complete All-Gene Publication Benchmark}
+
+The complete publication benchmark evaluated GeneMapKit on all 44,997 approved human gene symbols in \path{data/sample/all_human_genes.csv}. This run combined local identifier conversion, local coordinate lookup from the pinned Ensembl GTF, multi-API external concordance, complete held-out validation summaries, and all-to-all path consistency. The local performance benchmark used one repeat (\texttt{--repeats 1}) for the all-gene run reported here. External API timings were measured from uncached live queries in this run.
+
+\subsection*{Publication benchmark command}
+
+\begin{verbatim}
+python benchmark_publication.py data/sample/all_human_genes.csv \
+  --column symbol \
+  --db data/build/genemapkit_final_v21.db \
+  --gtf data/raw/Homo_sapiens.GRCh38.116.gtf.gz \
+  --held-out-report results/mane_heldout_complete \
+  --held-out-report results/ncbi_heldout_complete \
+  --policy all-supported \
+  --path-pivot-type entrez_id \
+  --path-sample 0 \
+  --path-seed 20260616 \
+  --repeats 1 \
+  --coordinate-batch-size 1000 \
+  --out results/publication_benchmark_all_genes
+\end{verbatim}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l l}
+\toprule
+\textbf{Capability} & \textbf{Result} \\
+\midrule
+Local SQLite identifier conversion & Available \\
+Offline local conversion test & True \\
+Direct SQLite coordinate query & False \\
+Local coordinate source & \path{data/raw/Homo_sapiens.GRCh38.116.gtf.gz} \\
+Database size & 11.7288 GiB \\
+Median converter startup & 0.017076 s \\
+\bottomrule
+\end{tabular}
+\caption*{\textbf{Supplementary Table S8.} Capability summary from the complete all-gene publication benchmark.}
+\end{table}
+
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{rrrrrrr}
+\toprule
+\textbf{Batch size} & \textbf{Repeats} & \textbf{Median seconds} & \textbf{IDs/s} & \textbf{Peak RSS MiB} & \textbf{RSS increase MiB} & \textbf{Peak Python MiB} \\
+\midrule
+1 & 1 & 0.018307 & 54.6236 & 101.0898 & 0.1719 & 0.0441 \\
+10 & 1 & 0.022772 & 439.1377 & 102.6094 & 0.6133 & 0.0528 \\
+100 & 1 & 0.129845 & 770.1490 & 103.4414 & 0.8438 & 0.2014 \\
+1,000 & 1 & 1.259973 & 793.6677 & 108.6055 & 5.1719 & 1.7423 \\
+44,997 & 1 & 59.876988 & 751.4907 & 274.2656 & 165.6914 & 76.3144 \\
+\bottomrule
+\end{tabular}%
+}
+\caption*{\textbf{Supplementary Table S9.} Local batch scalability for the complete all-gene publication benchmark. Memory values are process RSS and Python allocation peaks.}
+\end{table}
+
+\begin{landscape}
+\begin{table}[h]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllrrll}
+\toprule
+\textbf{System} & \textbf{Operation} & \textbf{Symbols} & \textbf{Seconds} & \textbf{Symbols/s} & \textbf{Network required} & \textbf{Offline capable} \\
+\midrule
+GeneMapKit SQLite & Five-namespace identifier conversion & 44,997 & 59.876988 & 751.4907 & False & True \\
+GeneMapKit pinned GTF & Coordinate lookup by full GTF scan & 44,997 & 21.459850 & 2,096.7994 & False & True \\
+MyGene.info & External identifier API query & 44,997 & 100.683602 & 446.9149 & True & False \\
+Ensembl REST & External identifier API query & 44,997 & 360.144722 & 124.9414 & True & False \\
+NCBI E-utilities & External identifier API query & 44,997 & 646.281962 & 69.6244 & True & False \\
+UniProt & External identifier API query & 44,997 & 891.083076 & 50.4970 & True & False \\
+g:Profiler & External identifier API query & 44,997 & 203.986166 & 220.5885 & True & False \\
+BridgeDb & External identifier API query & 44,997 & 436.428914 & 103.1027 & True & False \\
+\bottomrule
+\end{tabular}%
+}
+\caption*{\textbf{Supplementary Table S10.} Direct system comparison from the complete all-gene publication benchmark.}
+\end{table}
+\end{landscape}
+
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{rrrrrrr}
+\toprule
+\textbf{Symbols} & \textbf{Exact} & \textbf{Partial} & \textbf{Conflict} & \textbf{Local-only} & \textbf{External-only} & \textbf{Exact concordance, 95\% CI} \\
+\midrule
+44,997 & 41,203 & 457 & 0 & 0 & 29 & 91.5683\% [91.3080, 91.8215] \\
+\bottomrule
+\end{tabular}%
+}
+\caption*{\textbf{Supplementary Table S11.} Coordinate concordance between the pinned Ensembl GTF snapshot and live Ensembl coordinate lookup. GeneMapKit schema 2.1.0 does not store coordinates in SQLite; local coordinates were read directly from the pinned GTF.}
+\end{table}
+
+\subsection*{Multi-API external concordance}
+
+GeneMapKit was benchmarked against six external services: MyGene.info, Ensembl, NCBI E-utilities, UniProt, g:Profiler, and BridgeDb. External concordance compares GeneMapKit outputs with the union of external provider outputs. These services overlap with GeneMapKit upstream sources; therefore this benchmark measures concordance and external support, not independent biological accuracy.
+
+\begin{landscape}
+\begin{longtable}{lrrrrrrrr}
+\caption*{\textbf{Supplementary Table S12.} Multi-API external-union concordance under the \texttt{all-supported} policy in the complete all-gene publication benchmark. Precision and recall are set-based concordance values with respect to the external union.}\\
+\toprule
+\textbf{Output} & \textbf{Exact} & \textbf{Supported extras} & \textbf{Partial} & \textbf{Conflict} & \textbf{GMK only} & \textbf{External-only} & \textbf{Precision, 95\% CI} & \textbf{Recall, 95\% CI} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Output} & \textbf{Exact} & \textbf{Supported extras} & \textbf{Partial} & \textbf{Conflict} & \textbf{GMK only} & \textbf{External-only} & \textbf{Precision, 95\% CI} & \textbf{Recall, 95\% CI} \\
+\midrule
+\endhead
+\texttt{ensembl\_gene\_id} & 38,434 & 3,054 & 746 & 4 & 510 & 20 & 96.9666\% [96.8029, 97.1222] & 87.6689\% [87.3750, 87.9568] \\
+\texttt{entrez\_id} & 41,151 & 2,909 & 866 & 6 & 16 & 5 & 97.8627\% [97.7264, 97.9910] & 87.6269\% [87.3392, 87.9090] \\
+\texttt{refseq\_rna\_id} & 10,228 & 17,771 & 622 & 391 & 13,574 & 408 & 69.4887\% [69.0757, 69.8987] & 12.5305\% [12.4054, 12.6567] \\
+\texttt{refseq\_protein\_id} & 4,213 & 14,980 & 0 & 0 & 0 & 259 & 100.0000\% [99.9801, 100.0000] & 9.3406\% [9.2158, 9.4670] \\
+\texttt{uniprot\_id} & 3,253 & 16,526 & 497 & 0 & 33 & 292 & 97.2405\% [97.0099, 97.4538] & 11.8209\% [11.6693, 11.9742] \\
+\bottomrule
+\end{longtable}
+\end{landscape}
+
+\section*{Supplementary Section S10: External Provider Runtime}
+
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrl}
+\toprule
+\textbf{Provider} & \textbf{Requested symbols} & \textbf{Queried symbols} & \textbf{Cached symbols} & \textbf{Elapsed seconds} \\
+\midrule
+MyGene.info & 44,997 & 44,997 & 0 & 100.683602 \\
+Ensembl REST & 44,997 & 44,997 & 0 & 360.144722 \\
+NCBI E-utilities & 44,997 & 44,997 & 0 & 646.281962 \\
+UniProt & 44,997 & 44,997 & 0 & 891.083076 \\
+g:Profiler & 44,997 & 44,997 & 0 & 203.986166 \\
+BridgeDb & 44,997 & 44,997 & 0 & 436.428914 \\
+\bottomrule
+\end{tabular}%
+}
+\caption*{\textbf{Supplementary Table S13.} External provider query timings for 44,997 symbols in the complete all-gene publication benchmark. No cached provider responses were used in this run.}
+\end{table}
+
+Transient HTTP 502 responses were observed for NCBI E-utilities during live API benchmarking. These responses were handled by retry logic and did not prevent benchmark completion.
+
+\section*{Supplementary Section S11: All-to-All Path and Round-Trip Benchmark}
+
+The all-to-all benchmark evaluated direct conversion coverage, round-trip recovery, and consistency of direct mappings compared with mappings through a pivot namespace. The benchmark used nine namespaces and \texttt{entrez\_id} as the pivot. The complete all-identifier path component of the all-gene publication benchmark used \texttt{--path-sample 0}; runtime was 891.993423 seconds.
+
+\begin{verbatim}
+python benchmark_paths.py \
+  --db data/build/genemapkit_final_v21.db \
+  --pivot-type entrez_id \
+  --sample 0 \
+  --seed 20260616 \
+  --out results/publication_benchmark_all_genes/paths
+\end{verbatim}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lr}
+\toprule
+\textbf{Namespace} & \textbf{Identifiers tested} \\
+\midrule
+\texttt{symbol} & 194,111 \\
+\texttt{hgnc\_id} & 45,102 \\
+\texttt{entrez\_id} & 360,507 \\
+\texttt{ensembl\_gene\_id} & 83,350 \\
+\texttt{ensembl\_transcript\_id} & 667,415 \\
+\texttt{ensembl\_protein\_id} & 382,806 \\
+\texttt{refseq\_rna\_id} & 292,492 \\
+\texttt{refseq\_protein\_id} & 198,880 \\
+\texttt{uniprot\_id} & 301,559 \\
+\bottomrule
+\end{tabular}
+\caption*{\textbf{Supplementary Table S14.} Namespace inventory used in the complete path benchmark.}
+\end{table}
+
+\begin{landscape}
+\begin{table}[h]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+\textbf{Source} & \textbf{Symbol} & \textbf{HGNC} & \textbf{Entrez} & \textbf{Ens gene} & \textbf{Ens transcript} & \textbf{Ens protein} & \textbf{RefSeq RNA} & \textbf{RefSeq protein} & \textbf{UniProt} \\
+\midrule
+\texttt{symbol} & 100.0 & 23.277 & 99.933 & 23.926 & 21.586 & 10.268 & 21.985 & 9.939 & 10.452 \\
+\texttt{hgnc\_id} & 100.0 & 100.0 & 99.880 & 94.785 & 42.816 & 42.661 & 94.402 & 42.661 & 44.983 \\
+\texttt{entrez\_id} & 53.826 & 12.497 & 100.0 & 12.915 & 8.367 & 5.480 & 16.542 & 5.697 & 5.677 \\
+\texttt{ensembl\_gene\_id} & 57.189 & 51.957 & 60.024 & 100.0 & 99.869 & 28.614 & 60.590 & 26.803 & 29.275 \\
+\texttt{ensembl\_transcript\_id} & 80.440 & 2.905 & 79.872 & 99.950 & 100.0 & 57.306 & 17.019 & 15.179 & 37.240 \\
+\texttt{ensembl\_protein\_id} & 96.622 & 5.046 & 99.379 & 99.912 & 99.912 & 100.0 & 23.860 & 26.465 & 64.926 \\
+\texttt{refseq\_rna\_id} & 15.980 & 15.963 & 99.983 & 67.557 & 62.961 & 55.061 & 100.0 & 21.846 & 0.0 \\
+\texttt{refseq\_protein\_id} & 9.738 & 9.712 & 99.973 & 81.215 & 81.215 & 81.215 & 32.128 & 100.0 & 43.131 \\
+\texttt{uniprot\_id} & 6.715 & 6.715 & 11.618 & 59.014 & 58.766 & 58.766 & 0.0 & 11.175 & 100.0 \\
+\bottomrule
+\end{tabular}%
+}
+\caption*{\textbf{Supplementary Table S15.} Direct conversion success matrix (\%) from the complete all-identifier path benchmark.}
+\end{table}
+\end{landscape}
+
+Exact round-trip equality is not universally expected because identifier relationships can be one-to-many. The complete tables are available in \path{results/publication_benchmark_all_genes/paths/conversion_coverage.csv}, \path{round_trip_consistency.csv}, and \path{pivot_path_consistency.csv}.
+
+\section*{Supplementary Section S12: Mapping Policy Interpretation}
+
+GeneMapKit reports several mapping policies to support different use cases. The \texttt{all-supported} policy returns every direct supported assertion and is recall-oriented. The \texttt{authoritative} policy prioritises configured source authorities for each output namespace. The \texttt{corroborated} policy requires support from at least two independent sources and is precision-oriented. The \texttt{mane-select} policy restricts transcript/protein mappings to MANE Select assertions where applicable. These policies should be selected according to the downstream analysis: broad harmonisation favours \texttt{all-supported}, while canonical transcript/protein analyses may require \texttt{mane-select} or additional filtering.
+
+\section*{Supplementary Section S13: Reproducibility Outputs}
+
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ll}
+\toprule
+\textbf{Path} & \textbf{Description} \\
+\midrule
+\path{data/raw/manifest.json} & Raw source manifest with URLs, file sizes, and SHA256 checksums \\
+\path{data/build/genemapkit_final_v21_report.json} & Final database build report \\
+\path{data/build/genemapkit_mane_heldout_v21_report.json} & MANE held-out database build report \\
+\path{data/build/genemapkit_ncbi_heldout_v21_report.json} & NCBI held-out database build report \\
+\path{results/mane_heldout_complete} & Complete MANE held-out validation \\
+\path{results/ncbi_heldout_complete} & Complete NCBI held-out validation \\
+\path{results/final_database_diagnostic_complete} & Final database diagnostic validation \\
+\path{results/publication_benchmark_all_genes} & Complete all-gene publication benchmark bundle \\
+\path{results/publication_benchmark_all_genes/performance_scaling.csv} & Local batch scalability and memory benchmark \\
+\path{results/publication_benchmark_all_genes/system_comparison.csv} & Direct local-versus-API system comparison \\
+\path{results/publication_benchmark_all_genes/coordinate_concordance.csv} & Coordinate concordance against live Ensembl lookup \\
+\path{results/publication_benchmark_all_genes/external} & Multi-API external concordance cache and details \\
+\path{results/publication_benchmark_all_genes/paths} & Complete all-identifier path and round-trip benchmark \\
+\bottomrule
+\end{tabular}%
+}
+\caption*{\textbf{Supplementary Table S16.} Main machine-readable outputs supporting the supplementary analyses.}
+\end{table}
+
+\section*{Supplementary Section S14: Limitations}
+
+The validation analyses measure recovery of held-out source relationships and concordance with external services. They do not define absolute biological truth. Public identifier databases differ in release timing, accession history, transcript and isoform representation, withdrawn record handling, and cross-reference policy. Disagreement between GeneMapKit and an external service may therefore reflect different database scope rather than an incorrect mapping.
+
+The strongest evidence supports reproducible local conversion for common gene-level identifiers, including symbols, Entrez IDs, HGNC IDs, and Ensembl gene IDs. Transcript-level, protein-level, RefSeq, UniProt, and PDB conversions require more careful interpretation because multiple valid accessions may exist for a single biological entity. The mapping policy should therefore be reported in downstream analyses.
+
+\section*{Supplementary Section S15: Summary}
+
+GeneMapKit integrates 14 public identifier resources into a local SQLite database containing 8,500,203 identifier rows and 29,055,130 direct relationship rows. Independent held-out validation showed strong recovery of expected mappings for MANE transcript-to-protein relationships and gene-level NCBI Entrez--Ensembl relationships. In the complete all-gene publication benchmark, GeneMapKit converted five identifier namespaces for 44,997 symbols in 59.876988 seconds (751.4907 identifiers/s) with offline operation, while live external providers required 100.683602 to 891.083076 seconds. Coordinate concordance between the pinned GTF and live Ensembl lookup was 91.5683\% exact with no conflicts. External concordance against six services demonstrated high precision for core gene-level outputs and highlighted expected lower external-union recall for RefSeq and UniProt identifiers, where external services return broader accession sets. Complete path benchmarking further quantified conversion coverage and round-trip behavior across nine supported identifier namespaces.
+
+\end{document}

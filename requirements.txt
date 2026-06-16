@@ -1,0 +1,7 @@
+pandas>=2.0.0
+requests>=2.32.0,<3
+chardet<6
+click>=8.0.0
+tqdm>=4.64.0
+colorlog>=6.6.0
+psutil>=5.9.0

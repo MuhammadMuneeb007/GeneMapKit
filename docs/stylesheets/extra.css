@@ -1,0 +1,43 @@
+:root {
+  --md-primary-fg-color: #087f8c;
+  --md-accent-fg-color: #00a6a6;
+}
+
+.hero {
+  padding: 2.2rem;
+  border: 1px solid color-mix(in srgb, var(--md-primary-fg-color) 35%, transparent);
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at top right, rgb(0 166 166 / 18%), transparent 45%),
+    linear-gradient(135deg, rgb(8 127 140 / 12%), transparent);
+}
+
+.hero h1 {
+  margin-bottom: 0.4rem;
+  font-weight: 750;
+}
+
+.hero p {
+  max-width: 52rem;
+  font-size: 1.05rem;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.8rem;
+  margin: 1.5rem 0;
+}
+
+.metric {
+  padding: 1rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.75rem;
+  background: var(--md-code-bg-color);
+}
+
+.metric strong {
+  display: block;
+  color: var(--md-primary-fg-color);
+  font-size: 1.45rem;
+}

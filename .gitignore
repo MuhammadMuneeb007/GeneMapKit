@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+site/
+build/
+dist/
+*.egg-info/
+.packaging-test/
+results/
+
+# Environments and local configuration
+.venv/
+venv/
+.env
+
+# Reproducible data pipeline outputs
+# Raw snapshots and built databases are large generated artifacts. Publish
+# selected snapshots separately with checksums/DOIs rather than through Git.
+data/raw/
+data/build/
+
+# Temporary downloads
+*.part

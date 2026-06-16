@@ -1,0 +1,81 @@
+site_name: GeneMapKit
+site_description: Reproducible, provenance-aware human gene and protein identifier conversion
+site_url: https://muhammadmuneeb007.github.io/GeneMapKit/
+repo_url: https://github.com/muhammadmuneeb007/GeneMapKit
+repo_name: muhammadmuneeb007/GeneMapKit
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; Muhammad Muneeb
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - content.tabs.link
+    - search.highlight
+    - search.suggest
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Data Pipeline:
+      - Download Databases: download.md
+      - Build the Database: build.md
+      - Architecture: architecture.md
+  - Use GeneMapKit:
+      - Convert Identifiers: convert.md
+      - Mapping Policies: policies.md
+      - Validate Accuracy: validate.md
+      - External Concordance: external-concordance.md
+  - Reference:
+      - CLI Reference: cli-reference.md
+      - Reproducibility: reproducibility.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/muhammadmuneeb007/GeneMapKit
+    - icon: fontawesome/solid/graduation-cap
+      link: https://scholar.google.com/citations?user=X0xdltIAAAAJ
